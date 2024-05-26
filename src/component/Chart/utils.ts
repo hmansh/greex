@@ -1,13 +1,17 @@
+import Colors from "@/themes/colors";
 import { ScriptableContext } from "chart.js";
 import { renderToString } from "react-dom/server";
 
 export const generateDates = (n: number): string[] => {
   const dates = [];
+
   for (let i = 0; i < n; i++) {
     const date = new Date();
     date.setDate(date.getDate() - i);
-    dates.push(date.getDate() + "/" + date.getMonth());
+    const result = `${date.getDate()} / ${date.getMonth() + 1}`;
+    dates.push(result);
   }
+
   return dates.reverse();
 };
 
@@ -81,18 +85,24 @@ export const externalTooltipHandler = (context: {
   tooltipEl.style.top = `${positionY + 10 + tooltip.caretY}px`;
 };
 
-export const graphDatasets = () => [
-  {
-    borderWidth: 2,
-    lineTension: 0.15,
-    fill: "start",
-    borderColor: "#F3BA2F",
-    backgroundColor: (context: ScriptableContext<"line">) => {
-      const { ctx } = context.chart;
-      const gradient = ctx.createLinearGradient(0, 0, 0, 700);
-      gradient.addColorStop(0, "rgba(248, 212, 107, 0.2)");
-      gradient.addColorStop(1, "rgba(0, 0, 0, 0.0)");
-      return gradient;
-    },
+export const graphConfig = () => ({
+  borderWidth: 2,
+  fill: "start",
+  borderColor: Colors.yellow,
+  pointBorderColor: Colors.yellow,
+  pointBackgroundColor: Colors.black,
+  backgroundColor: (context: ScriptableContext<"line">) => {
+    const { ctx } = context.chart;
+    const gradient = ctx.createLinearGradient(0, 0, 0, 700);
+    gradient.addColorStop(0, "rgba(248, 212, 107, 0.2)");
+    gradient.addColorStop(1, "rgba(0, 0, 0, 0.0)");
+    return gradient;
   },
-]
+  lineTension: 0.20
+})
+
+export const lineGraphConfig = () => ({
+  borderWidth: 2,
+  fill: "start",
+  pointRadius: 0,
+});

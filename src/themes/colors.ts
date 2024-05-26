@@ -37,6 +37,7 @@ enum Colors {
 
     white = '#fff',
     black = '#000',
+    yellow = '#F3BA2F',
     transparent = 'transparent',
 }
 
