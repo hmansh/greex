@@ -2,32 +2,32 @@
 import styled from "styled-components";
 import { Line } from "react-chartjs-2";
 import {
-    ArcElement,
-    CategoryScale,
-    Chart as ChartJS,
-    Filler,
-    Legend,
-    LinearScale,
-    LineElement,
-    PointElement,
-    Title,
-    Tooltip,
-    ChartArea
+  ArcElement,
+  CategoryScale,
+  Chart as ChartJS,
+  Filler,
+  Legend,
+  LinearScale,
+  LineElement,
+  PointElement,
+  Title,
+  Tooltip,
+  ChartArea
 } from "chart.js";
 import Colors from "@/themes/colors";
 
 ChartJS.register(
-    ArcElement,
-    Tooltip,
-    Legend,
-    PointElement,
-    LineElement,
-    CategoryScale,
-    LinearScale,
-    Title,
-    Tooltip,
-    Legend,
-    Filler
+  ArcElement,
+  Tooltip,
+  Legend,
+  PointElement,
+  LineElement,
+  CategoryScale,
+  LinearScale,
+  Title,
+  Tooltip,
+  Legend,
+  Filler
 );
 
 export const StyledLine = styled(Line)`
@@ -50,23 +50,23 @@ export const StyledLine = styled(Line)`
 `;
 
 export const whiteStraightLine = {
-    id: "white-line",
-    beforeDatasetsDraw({
-      ctx,
-      chartArea,
-    }: {
-      ctx: CanvasRenderingContext2D;
-      chartArea: ChartArea;
-    }) {
-      ctx.strokeStyle = Colors.grey900;
-      ctx.lineWidth = 1;
-  
-      ctx.beginPath();
-      // ctx.setLineDash([4]);
-      ctx.moveTo(chartArea.right, chartArea.top);
-      ctx.lineTo(chartArea.right, chartArea.bottom);
-      ctx.stroke();
-      ctx.setLineDash([0]);
-      ctx.closePath();
-    },
-  };
+  id: "white-line",
+  beforeDatasetsDraw({
+    ctx,
+    chartArea,
+  }: {
+    ctx: CanvasRenderingContext2D;
+    chartArea: ChartArea;
+  }) {
+    ctx.strokeStyle = Colors.grey900;
+    ctx.lineWidth = 1;
+
+    ctx.beginPath();
+    // ctx.setLineDash([4]);
+    ctx.moveTo(chartArea.right, chartArea.top);
+    ctx.lineTo(chartArea.right, chartArea.bottom);
+    ctx.stroke();
+    ctx.setLineDash([0]);
+    ctx.closePath();
+  },
+};

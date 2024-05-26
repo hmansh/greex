@@ -43,7 +43,7 @@ const Chart: React.FC<ChartProps> = () => {
     if (!session) return null;
 
     return (
-        <Box sx={{ padding: '16px', paddingBottom: 0 }} bgcolor={Colors.black}>
+        <Box sx={{ padding: '16px', paddingBottom: 0, position: 'relative' }} bgcolor={Colors.black}>
             <StyledLine
                 plugins={[whiteStraightLine]}
                 height={800}
@@ -55,8 +55,9 @@ const Chart: React.FC<ChartProps> = () => {
                         },
                         tooltip: {
                             enabled: false,
-                            external: (context: { chart: any; tooltip: any }) =>
-                                externalTooltipHandler({ ...context, data }),
+                            external: (context: { chart: any; tooltip: any }) => {
+                                return externalTooltipHandler({ ...context, data });
+                            }      
                         },
                     },
                     scales: {

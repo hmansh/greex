@@ -56,10 +56,9 @@ export const getOrCreateTooltip = (
   if (!tooltipEl) {
     tooltipEl = document.createElement("div");
     tooltipEl.classList.add("custom-tooltip");
-    tooltipEl.innerHTML = stringifiedCustomTooltip(dataIndex, data);
-
     chart.canvas.parentNode.appendChild(tooltipEl);
   }
+
   tooltipEl.innerHTML = stringifiedCustomTooltip(dataIndex, data);
   return tooltipEl;
 };
@@ -76,6 +75,7 @@ export const externalTooltipHandler = (context: {
     tooltipEl.style.opacity = 0;
     return;
   }
+
   tooltipEl.style.opacity = 1;
   const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
