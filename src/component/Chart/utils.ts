@@ -1,3 +1,4 @@
+import { ScriptableContext } from "chart.js";
 import { renderToString } from "react-dom/server";
 
 export const generateDates = (n: number): string[] => {
@@ -9,7 +10,6 @@ export const generateDates = (n: number): string[] => {
   }
   return dates.reverse();
 };
-
 
 export const generateFinancialModel = (
   n: number,
@@ -68,7 +68,7 @@ export const externalTooltipHandler = (context: {
   tooltip: any;
 }) => {
   const { chart, tooltip } = context;
-  const tooltipEl = getOrCreateTooltip(chart, tooltip.dataPoints[0].dataIndex);
+  const tooltipEl = getOrCreateTooltip(chart, tooltip.dataPoints?.[0]?.dataIndex);
 
   if (tooltip.opacity === 0) {
     tooltipEl.style.opacity = 0;
@@ -80,3 +80,19 @@ export const externalTooltipHandler = (context: {
   tooltipEl.style.left = `${positionX + tooltip.caretX - 190}px`;
   tooltipEl.style.top = `${positionY + 10 + tooltip.caretY}px`;
 };
+
+export const graphDatasets = () => [
+  {
+    borderWidth: 2,
+    lineTension: 0.15,
+    fill: "start",
+    borderColor: "#F3BA2F",
+    backgroundColor: (context: ScriptableContext<"line">) => {
+      const { ctx } = context.chart;
+      const gradient = ctx.createLinearGradient(0, 0, 0, 700);
+      gradient.addColorStop(0, "rgba(248, 212, 107, 0.2)");
+      gradient.addColorStop(1, "rgba(0, 0, 0, 0.0)");
+      return gradient;
+    },
+  },
+]

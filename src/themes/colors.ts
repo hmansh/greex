@@ -1,0 +1,43 @@
+enum Colors {
+    primary25 = '#f4f5f7',
+    primary50 = '#e1e6eb',
+    primary100 = '#c2c9d1',
+    primary200 = '#9aa5b1',
+    primary300 = '#6b7c93',
+    primary400 = '#4b5a7f',
+    primary500 = '#2a3a5e',
+    primary600 = '#253858',
+    primary700 = '#1e2b4a',
+    primary800 = '#19243d',
+    primary900 = '#131a30',
+
+    secondary25 = '#f4f5f7',
+    secondary50 = '#e1e6eb',
+    secondary100 = '#c2c9d1',
+    secondary200 = '#9aa5b1',
+    secondary300 = '#6b7c93',
+    secondary400 = '#4b5a7f',
+    secondary500 = '#2a3a5e',
+    secondary600 = '#253858',
+    secondary700 = '#1e2b4a',
+    secondary800 = '#19243d',
+    secondary900 = '#131a30',
+
+    grey25 = '#FCFCFD',
+	grey50 = '#F9FAFB',
+	grey100 = '#F2F4F7',
+	grey200 = '#EAECF0',
+	grey300 = '#D0D5DD',
+	grey400 = '#98A2B3',
+	grey500 = '#667085',
+	grey600 = '#475467',
+	grey700 = '#344054',
+	grey800 = '#1D2939',
+	grey900 = '#101828',
+
+    white = '#fff',
+    black = '#000',
+    transparent = 'transparent',
+}
+
+export default Colors;
