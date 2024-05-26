@@ -3,11 +3,10 @@
 import React, { useState, useEffect } from 'react';
 import { StyledLine, whiteStraightLine } from './Chart';
 import Box from "@mui/material/Box";
-import { externalTooltipHandler, graphConfig, generateFinancialModel, generateDates, lineGraphConfig } from './utils';
+import { externalTooltipHandler, graphConfig, generateFinancialModel, generateTimes, lineGraphConfig } from './utils';
 import { ScriptableContext } from 'chart.js';
 import Colors from '@/themes/colors';
 import { useSession } from "next-auth/react";
-import { useRouter } from 'next/navigation';
 
 const N = 100;
 const BASE_VALUE = 100;
@@ -57,37 +56,56 @@ const Chart: React.FC<ChartProps> = () => {
                         tooltip: {
                             enabled: false,
                             external: (context: { chart: any; tooltip: any }) =>
-                                externalTooltipHandler(context),
+                                externalTooltipHandler({ ...context, data }),
                         },
                     },
                     scales: {
                         y: {
+                            position: 'right',
                             ticks: {
-                                callback: (_, tickValue: string | number) => `$ ${(tickValue as number).toFixed(2)}`,
-                                color: Colors.white,
+                                color: Colors.grey700,
+                                callback: (tickValue) => `$ ${tickValue}`,
+                                align: 'end',
                             },
+                            grid: {
+                                color: Colors.grey900,
+                            }
                         },
                         x: {
                             ticks: {
-                                color: Colors.white,
+                                color: Colors.grey700,
+                                maxTicksLimit: 10,
                             },
+                            grid: {
+                                color: Colors.grey900,
+                            }
                         }
                     }
                 }}
                 data={{
-                    labels: generateDates(data.length),
+                    labels: generateTimes(data.length),
                     datasets: [{
                         type: 'line',
+                        animations: {
+                            y: {
+                                duration: 0,
+                            },
+                        },
                         pointRadius: (ctx: ScriptableContext<"line">) =>
                             ctx.chart.data.datasets[1].data[ctx.dataIndex] === ctx.chart.data.datasets[0].data[ctx.dataIndex] ? 5 : 0,
-                        label: '',
+                        label: 'Price',
                         data: data,
                         ...graphConfig(),
                     }, {
                         type: 'line',
                         label: '',
+                        animations: {
+                            y: {
+                                duration: 500,
+                            },
+                        },
                         borderColor: data[data.length - 1] > data[data.length - 2] ? 'rgba(0, 255, 0, 0.3)' : "rgba(255, 0, 0, 0.3)",
-                        data: Array.from({ length: data.length }, (_, i) => data[data.length - 1]),
+                        data: data.map(() => data[data.length - 1]),
                         backgroundColor: ({ chart }: ScriptableContext<"line">) => {
                             const { ctx } = chart;
 
@@ -97,7 +115,7 @@ const Chart: React.FC<ChartProps> = () => {
                             const fromGradient = lastItem > secondLastItem ? "rgba(0, 255, 0, 0.2)" : "rgba(255, 0, 0, 0.2)";
                             const toGradient = "rgba(0, 0, 0, 0.2)";
 
-                            const gradient = ctx.createLinearGradient(20, 0, 10, 200);
+                            const gradient = ctx.createLinearGradient(0, 0, 0, 300);
 
                             gradient.addColorStop(0, fromGradient);
                             gradient.addColorStop(1, toGradient);

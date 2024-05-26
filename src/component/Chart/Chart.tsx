@@ -32,17 +32,20 @@ ChartJS.register(
 
 export const StyledLine = styled(Line)`
   + .custom-tooltip {
-    background-color: ${Colors.white};
+    background-color: ${Colors.yellow};
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    color: #000000;
+    border-radius: 4px;
+    color: ${Colors.grey900};
     opacity: 1;
     pointerevents: none;
     position: absolute;
-    padding: 12px;
+    padding: 3px 16px;
     transition: all 0.1s ease;
-    width: 189px;
-    height: 110px;
+    width: fit-content;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    font-size: 14px;
   }
 `;
 
@@ -55,11 +58,11 @@ export const whiteStraightLine = {
       ctx: CanvasRenderingContext2D;
       chartArea: ChartArea;
     }) {
-      ctx.strokeStyle = Colors.grey700;
+      ctx.strokeStyle = Colors.grey900;
       ctx.lineWidth = 1;
   
       ctx.beginPath();
-      ctx.setLineDash([4]);
+      // ctx.setLineDash([4]);
       ctx.moveTo(chartArea.right, chartArea.top);
       ctx.lineTo(chartArea.right, chartArea.bottom);
       ctx.stroke();

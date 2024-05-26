@@ -2,17 +2,17 @@ import Colors from "@/themes/colors";
 import { ScriptableContext } from "chart.js";
 import { renderToString } from "react-dom/server";
 
-export const generateDates = (n: number): string[] => {
-  const dates = [];
+export const generateTimes = (n: number): string[] => {
+  const times = [];
 
   for (let i = 0; i < n; i++) {
     const date = new Date();
-    date.setDate(date.getDate() - i);
-    const result = `${date.getDate()} / ${date.getMonth() + 1}`;
-    dates.push(result);
+    date.setMinutes(date.getMinutes() - i);
+    const result = `${date.getHours()}:${date.getMinutes().toString().padStart(2, '0')}`;
+    times.push(result);
   }
 
-  return dates.reverse();
+  return times.reverse();
 };
 
 export const generateFinancialModel = (
@@ -35,12 +35,8 @@ export const generateFinancialModel = (
   return data;
 }
 
-const stringifiedCustomTooltip = (dataIndex: number) => {
-  return renderToString(`
-    <div>
-      <p>Current Price</p>
-    </div>
-  `);
+const stringifiedCustomTooltip = (dataIndex: number, data: number[]) => {
+  return renderToString(data[dataIndex] + ' $');
 };
 
 export const getOrCreateTooltip = (
@@ -52,27 +48,29 @@ export const getOrCreateTooltip = (
       };
     };
   },
-  dataIndex: number
+  dataIndex: number,
+  data: number[] = []
 ) => {
   let tooltipEl = chart.canvas.parentNode.querySelector("div");
 
   if (!tooltipEl) {
     tooltipEl = document.createElement("div");
     tooltipEl.classList.add("custom-tooltip");
-    tooltipEl.innerHTML = stringifiedCustomTooltip(dataIndex);
+    tooltipEl.innerHTML = stringifiedCustomTooltip(dataIndex, data);
 
     chart.canvas.parentNode.appendChild(tooltipEl);
   }
-  tooltipEl.innerHTML = stringifiedCustomTooltip(dataIndex);
+  tooltipEl.innerHTML = stringifiedCustomTooltip(dataIndex, data);
   return tooltipEl;
 };
 
 export const externalTooltipHandler = (context: {
   chart: any;
   tooltip: any;
+  data: number[];
 }) => {
-  const { chart, tooltip } = context;
-  const tooltipEl = getOrCreateTooltip(chart, tooltip.dataPoints?.[0]?.dataIndex);
+  const { chart, tooltip, data } = context;
+  const tooltipEl = getOrCreateTooltip(chart, tooltip.dataPoints?.[0]?.dataIndex, data);
 
   if (tooltip.opacity === 0) {
     tooltipEl.style.opacity = 0;
@@ -81,7 +79,7 @@ export const externalTooltipHandler = (context: {
   tooltipEl.style.opacity = 1;
   const { offsetLeft: positionX, offsetTop: positionY } = chart.canvas;
 
-  tooltipEl.style.left = `${positionX + tooltip.caretX - 190}px`;
+  tooltipEl.style.left = `${positionX + tooltip.caretX - 80}px`;
   tooltipEl.style.top = `${positionY + 10 + tooltip.caretY}px`;
 };
 
