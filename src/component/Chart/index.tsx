@@ -6,6 +6,8 @@ import Box from "@mui/material/Box";
 import { externalTooltipHandler, graphDatasets, generateFinancialModel, generateDates } from './utils';
 import { ScriptableContext } from 'chart.js';
 import Colors from '@/themes/colors';
+import { useSession } from "next-auth/react";
+import { useRouter } from 'next/navigation';
 
 const N = 100;
 const BASE_VALUE = 100;
@@ -15,6 +17,9 @@ const VOLATILITY = 0.02;
 interface ChartProps { };
 
 const Chart: React.FC<ChartProps> = () => {
+    const { data: session } = useSession();
+    const router = useRouter();
+
     const [data, setData] = useState<number[]>(generateFinancialModel(
         N,
         BASE_VALUE,
@@ -34,6 +39,8 @@ const Chart: React.FC<ChartProps> = () => {
             clearInterval(timerRef);
         };
     }, []);
+
+    if (!session) return null;
 
     return (
         <Box padding={16} sx={{ paddingBottom: 0 }} bgcolor={Colors.black}>
